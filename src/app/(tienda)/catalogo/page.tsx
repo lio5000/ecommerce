@@ -5,11 +5,17 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import AddToCartButton from "@/components/AddToCartButton";
 
-// Forzamos renderizado en servidor pero optimizado mediante revalidate
-export const revalidate = 60; // Revalida el caché cada 60 segundos
+export const revalidate = 60;
+
+const getImageUrl = (url?: string) => {
+  if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
+    return url;
+  }
+  return "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=500";
+};
 
 async function getProducts(): Promise<Product[]> {
-  const res = await apiClient<Product[]>("/products", {
+  const res = await apiClient<any>("/products", {
     next: { tags: ["productos"] },
   });
 
@@ -17,7 +23,13 @@ async function getProducts(): Promise<Product[]> {
     return [];
   }
 
-  return res.data;
+  if (Array.isArray(res.data)) {
+    return res.data;
+  } else if (res.data.data && Array.isArray(res.data.data)) {
+    return res.data.data;
+  }
+
+  return [];
 }
 
 export default async function CatalogoPage() {
@@ -56,7 +68,7 @@ export default async function CatalogoPage() {
                   className="relative h-48 w-full bg-gray-100 block"
                 >
                   <Image
-                    src={product.image_url || "https://via.placeholder.com/300"}
+                    src={getImageUrl(product.image_url)}
                     alt={product.name}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

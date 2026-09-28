@@ -11,8 +11,21 @@ interface Props {
   params: Promise<{ id: string }>;
 }
 
+// Función auxiliar para formatear la URL de la imagen y evitar errores de renderizado
+const getImageUrl = (url?: string) => {
+  if (!url) return "https://picsum.photos/500/500";
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+
+  const baseUrl =
+    process.env.NEXT_PUBLIC_API_BASE_URL?.replace("/api", "") ||
+    "http://127.0.0.1:8000";
+  return `${baseUrl}/${url.replace(/^\//, "")}`;
+};
+
 async function getProduct(id: string): Promise<Product | null> {
-  const res = await apiClient<Product>(`/products/${id}`);
+  const res = await apiClient<Product>(`/products/${id}`, {
+    next: { tags: [`producto-${id}`] },
+  });
   if (res.error || !res.data) return null;
   return res.data;
 }
@@ -52,7 +65,7 @@ export default async function ProductDetailPage({ params }: Props) {
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-8 p-6 lg:p-8">
           <div className="relative h-80 md:h-full min-h-[320px] bg-gray-100 rounded-xl overflow-hidden">
             <Image
-              src={product.image_url || "https://via.placeholder.com/500"}
+              src={getImageUrl(product.image_url)}
               alt={product.name}
               fill
               priority
