@@ -77,7 +77,7 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_tu_llave_publica_de_stripe
 
 Visualización interactiva de los endpoints de Laravel 12 consumidos desde Next.js (`/login`, `/register`, `/products`, `/orders`).
 
-![Documentación de Swagger](./public/eviswwager.png)
+![Documentación de Swagger](./eviswwager.png)
 
 ---
 
@@ -85,7 +85,7 @@ Visualización interactiva de los endpoints de Laravel 12 consumidos desde Next.
 
 Evidencia del flujo funcional que abarca la navegación del catálogo, carrito de compras, integración del checkout y confirmación de la orden.
 
-![Flujo Completo de Compra](./public/evidenciaecommerce.png)
+![Flujo Completo de Compra](./evidenciaecommerce.png)
 
 ---
 
@@ -93,4 +93,4 @@ Evidencia del flujo funcional que abarca la navegación del catálogo, carrito d
 
 Resultados de la auditoría de rendimiento obtenida en la build optimizada de producción de Next.js.
 
-![Reporte de Rendimiento Lighthouse](./public/rendimiento.png)
+![Reporte de Rendimiento Lighthouse](./rendimiento.png)
